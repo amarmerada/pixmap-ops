@@ -52,7 +52,7 @@ int main(int argc, char** argv)
    cout << "loaded earth: " << image.width() << " " << image.height() << endl;
 
    // resize
-   Image resize = image.resize(200,300);
+   Image resize = image.resize(200,400);
    resize.save("earth-200-300.png");
 
    // grayscale
@@ -78,6 +78,8 @@ int main(int argc, char** argv)
    Image soup;
    soup.load("../images/soup.png");
 
+   
+
    int y = (int) (0.5f * (image.width() - soup.width()));
    int x = (int) (0.5f * (image.height() - soup.height()));
    Image background = image.subimage(x, y, soup.width(), soup.height());
@@ -85,5 +87,7 @@ int main(int argc, char** argv)
    Image blend = background.alphaBlend(soup, 0.5f);
    image.replace(blend, x, y);
    image.save("earth-blend-0.5.png");
+
+   
 }
 

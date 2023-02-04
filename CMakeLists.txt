@@ -1,12 +1,9 @@
 project(pixmap-ops)
 cmake_minimum_required(VERSION 3.0)
-
 if (WIN32) # Include win64 platforms
-
   find_package(OpenGL REQUIRED)
   find_library(GLEW NAMES glew32s PATHS external/lib/x64)
   find_library(GLFW NAMES glfw3 PATHS external/lib)
-
   set(CMAKE_CXX_STANDARD 14)
   set(CMAKE_CXX_FLAGS 
      "/wd4018 /wd4244 /wd4305 
@@ -19,39 +16,30 @@ if (WIN32) # Include win64 platforms
   include_directories(external/include)
   link_directories(external/lib)
   set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
-
 elseif (APPLE)
-
   set(CMAKE_MACOSX_RPATH 1)
   set(CMAKE_CXX_FLAGS "-Wall -Wno-deprecated-declarations -Wno-reorder-ctor -Wno-unused-function -Wno-unused-variable -g -stdlib=libc++ -std=c++14")
   find_library(GL_LIB OpenGL)
   find_library(GLFW glfw)
   add_definitions(-DAPPLE)
-
   include_directories(external/include /System/Library/Frameworks /usr/local/include)
   set(CORE ${GLFW} ${GL_LIB})
   set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
-
 elseif (UNIX)
-
+  set(OpenGL_GL_PREFERENCE  "GLVND")
   set(CMAKE_CXX_FLAGS "-Wall -g -std=c++14 -Wno-comment -Wno-sign-compare -Wno-reorder -Wno-unused-function")
   FIND_PACKAGE(OpenGL REQUIRED) 
   FIND_PACKAGE(GLEW REQUIRED)
-
   set(LIBRARY_DIRS
     /usr/X11R6/lib
     /usr/local/lib
     )
-
+  include_directories(external/include /usr/local/include)
   add_definitions(-DUNIX)
   set(CORE GLEW glfw GL X11)
   set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
-
 endif()
-
 add_executable(pixmap_test src/pixmap_test.cpp src/image.cpp src/image.h)
 target_link_libraries(pixmap_test)
-
 add_executable(pixmap_art src/pixmap_art.cpp src/image.cpp src/image.h)
 target_link_libraries(pixmap_art)
-

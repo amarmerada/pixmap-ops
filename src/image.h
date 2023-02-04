@@ -81,7 +81,7 @@ class Image {
   Pixel get(int row, int col) const;
 
   /**
-   * @brief Set the pixel RGBA color at index (row, col)
+   * @brief Set the pixel RGBA color at index (row, col) // set it to what? 
    * @param row The row (value between 0 and height)
    * @param col The col (value between 0 and width)
    *
@@ -115,8 +115,8 @@ class Image {
   // flip around the vertical midline
   Image flipVertical() const;
 
-  // rotate the Image 90 degrees
-  Image rotate90() const;
+  // rotate the Image 90 degrees to left or right depending on key
+  Image rotate90(char key) const;
 
   // Return a sub-Image having the given top,left coordinate and (width, height)
   Image subimage(int x, int y, int w, int h) const;
@@ -189,7 +189,10 @@ class Image {
   void fill(const Pixel& c);
 
  private:
-   // todo
+     int numChannels = 3; 
+     Pixel* myData;
+     int myWidth = 0;
+     int myHeight = 0;
 };
 }  // namespace agl
 #endif  // AGL_IMAGE_H_
