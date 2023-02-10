@@ -116,7 +116,7 @@ class Image {
   Image flipVertical() const;
 
   // rotate the Image 90 degrees to left or right depending on key
-  Image rotate90(char key) const;
+  Image rotate90() const;
 
   // Return a sub-Image having the given top,left coordinate and (width, height)
   Image subimage(int x, int y, int w, int h) const;
@@ -126,19 +126,23 @@ class Image {
   void replace(const Image& image, int x, int y);
 
   // swirl the colors 
-  Image swirl() const;
+  Image swirl(int centerx, int centery, int radius, float rotations) const;
 
   // Apply the following calculation to the pixels in 
   // our image and the given image:
   //    result.pixel = this.pixel + other.pixel
   // Assumes that the two images are the same size
-  Image add(const Image& other) const;
+  Image add(const Image& other, int startx, int starty) const;
+
+  Image blur() const;
+
+
 
   // Apply the following calculation to the pixels in 
   // our image and the given image:
   //    result.pixel = this.pixel - other.pixel
   // Assumes that the two images are the same size
-  Image subtract(const Image& other) const;
+  Image subtract(const Image& other, int startx, int starty) const;
 
   // Apply the following calculation to the pixels in 
   // our image and the given image:
@@ -182,17 +186,26 @@ class Image {
   // return a bitmap version of this image
   Image colorJitter(int size) const;
 
-  // return a bitmap version of this image
-  Image bitmap(int size) const;
-
   // Fill this image with a color
   void fill(const Pixel& c);
+
+  Image levels() const;
+
+  // Free image memory
+  void freeImage();
+
+  //return an image with colors altered by sin function
+  //denom should be larger than 1, affects dark/light
+  //sinConst should be between 0 and 1, affects size of pattern
+  Image sineColor(int denom, float sinConst) const;
+
 
  private:
      int numChannels = 3; 
      Pixel* myData;
      int myWidth = 0;
      int myHeight = 0;
+     bool stbi = false;
 };
 }  // namespace agl
 #endif  // AGL_IMAGE_H_

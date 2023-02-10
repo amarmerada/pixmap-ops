@@ -51,34 +51,58 @@ int main(int argc, char** argv)
    // should print 400 400
    cout << "loaded earth: " << image.width() << " " << image.height() << endl;
 
+
    // resize
    Image resize = image.resize(200,400);
    resize.save("earth-200-300.png");
+   //printf("resized\n");
+
+
+   Image rotate = resize.rotate90();
+   rotate.save("earth_rotated.png");
+   printf("rotated\n");
+
+   
 
    // grayscale
    Image grayscale = image.grayscale(); 
    grayscale.save("earth-grayscale.png");
+   //printf("grayscale\n");
 
    // flip horizontal
    Image flip = image.flipHorizontal(); 
-   flip.save("earth-flip.png"); 
+   flip.save("earth-flip.png");
+   //printf("flipped horizontally\n");
+
+   Image flipV = image.flipVertical();
+   flipV.save("earth-flipV.png");
+   //printf("flipped vertically\n");
 
    // sub image
    Image sub = image.subimage(200, 200, 100, 100); 
-   sub.save("earth-subimage.png"); 
+   sub.save("earth-subimage.png");
+   //printf("subimage\n");
+
+    Image lightest = image.lightest(grayscale);
+   lightest.save("lightest.png");
+   printf("lightest\n");
+
+   Image darkest = image.darkest(grayscale);
+   darkest.save("darkest.png");
+   printf("darket\n");
 
    // gamma correction
    Image gamma = image.gammaCorrect(0.6f); 
-   gamma.save("earth-gamma-0.6.png"); 
+   gamma.save("earth-gamma-0.6.png");
+   //printf("gamma Corrected\n");
 
    gamma = image.gammaCorrect(2.2f);
-   gamma.save("earth-gamma-2.2.png"); 
+   gamma.save("earth-gamma-2.2.png");
+   //printf("gamma corrected 2\n");
 
    // alpha blend
    Image soup;
    soup.load("../images/soup.png");
-
-   
 
    int y = (int) (0.5f * (image.width() - soup.width()));
    int x = (int) (0.5f * (image.height() - soup.height()));
@@ -87,7 +111,55 @@ int main(int argc, char** argv)
    Image blend = background.alphaBlend(soup, 0.5f);
    image.replace(blend, x, y);
    image.save("earth-blend-0.5.png");
+   //printf("alpha blended\n");
+
+   Image earth;
+   earth.load("../images/earth.png");
+
+   Image subtracted = earth.subtract(soup, x, y);
+   subtracted.save("earth_subtracted.png");
+   printf("subtracted\n");
+
+   Image added = earth.add(soup, x, y);
+   added.save("earth_added.png");
+   printf("readded\n");
+
+   Image blur = earth.blur();
+   blur.save("blurred_earth.png");
+   printf("blurred\n");
+
+   Image inverted = earth.invert();
+   inverted.save("inverted_earth.png");
+   printf("inverted\n");
+
+   Image swirled = earth.swirl(200, 200, 100, 0.7);
+   swirled.save("swirled_earth.png");
+   printf("swirled earth\n");
+
+   Image jittered = earth.colorJitter(80);
+   jittered.save("jittered_earth.png");
+   printf("jittered\n");
+
+   Image threshhold = soup.blurThreshold(150);
+   threshhold.save("threshhold_blur.png");
+   printf("threshold\n");
+
+   Image bricks;
+   bricks.load("../images/bricks.png");
+   Image swap = bricks.swap(16, 0.1);
+   swap.save("swap.png");
+   printf("swapped\n");
 
    
+
+
+   Pixel purple;
+   purple.r = 200;
+   purple.g = 5;
+   purple.b = 210;
+   soup.fill(purple);
+   soup.save("purple.png");
+   printf("fill\n");
+
 }
 
