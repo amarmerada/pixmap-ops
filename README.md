@@ -4,7 +4,7 @@ Image manipulation demos based on the PPM image format.
 
 
 ![levels_art](https://user-images.githubusercontent.com/67133103/218204013-c326e0cb-87c8-4c8f-985e-0d1def1edd20.png)
-
+![swirl_art](https://user-images.githubusercontent.com/67133103/218204717-d347aa5f-1b18-4fa2-8e93-2b17481e60fe.png)
 
 
 ## How to build
